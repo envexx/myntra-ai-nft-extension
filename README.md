@@ -21,6 +21,12 @@ Myntra AI is an AI-powered Chrome extension that provides real-time NFT analysis
 - ✅ **NFT Analytics Dashboards** - Visual interface for NFT risk assessment
 - ✅ **AI Risk Engines & Forensics** - Predictive models for NFT valuation
 
+## 🚀 Quick Access
+
+- **🌐 Live Demo**: [myntraai.vercel.app](https://myntraai.vercel.app)
+- **📦 Extension**: [Download Extension.zip](https://myntraai.vercel.app/../extension.zip)
+- **📚 Documentation**: [Interactive Guide](https://myntraai.vercel.app/dokumentasi.html)
+
 ## 📁 Project Structure
 
 ```
@@ -51,6 +57,17 @@ Myntra AI/
 │   ├── Nft.py              # BitsCrunch API wrapper
 │   ├── requirements.txt
 │   └── README.md           # Developer Guide
+│
+├── web/                # Landing Page & Documentation (Vercel Deployment)
+│   ├── index.html          # Auto-redirect to landing page
+│   ├── landing-page.html   # Main landing page
+│   ├── dokumentasi.html    # Interactive documentation
+│   └── picture/            # Images and icons
+│       ├── 128.png
+│       ├── icon16.png
+│       ├── icon48.png
+│       ├── icon128.png
+│       └── preview.png
 │
 ├── README.md           # Main Project Documentation
 └── .gitignore         # Git ignore rules
@@ -84,6 +101,13 @@ Backend will run on `http://localhost:5000`
 ### Extension Requirements
 - Google Chrome
 - Backend server running
+
+### Landing Page Technologies
+- HTML5 & CSS3
+- Tailwind CSS (CDN)
+- Vanilla JavaScript
+- Responsive Design
+- Web3 Gradient Theme
 
 ## 🔧 Configuration
 
@@ -139,6 +163,15 @@ python app.py
 - Reload extension in Chrome after changes
 
 ## 📦 Deployment
+
+### 🌐 Landing Page Deployment (Vercel)
+- **Live Demo**: [myntraai.vercel.app](https://myntraai.vercel.app)
+- **Extension Download**: [extension.zip](https://myntraai.vercel.app/../extension.zip)
+- **Features**: 
+  - Modern landing page with Web3 design
+  - Interactive documentation
+  - Responsive design for all devices
+  - Direct download of extension.zip file
 
 ### Backend Deployment
 - Deploy `backend/` folder to your server
