@@ -1,189 +1,426 @@
-# Myntra AI Backend - Developer Guide
+# 🚀 Myntra AI Backend
 
-## 🔍 Quick Setup
+Backend Flask API untuk analisis NFT dengan integrasi AI menggunakan UnleashNFTs dan Gemini APIs.
 
-### 1. Install Dependencies
+## 📋 Fitur
+
+- 🔍 **NFT Analysis**: Analisis komprehensif NFT menggunakan UnleashNFTs API
+- 🤖 **AI Integration**: Integrasi dengan Gemini AI untuk insights cerdas
+- 🔗 **Multi-Blockchain**: Support untuk Ethereum, Polygon, BSC
+- 📊 **Market Metrics**: Volume, sales, price history, dan metrics lainnya
+- 🎯 **Valuation**: AI-powered price estimation dan market analysis
+- 🔒 **Secure**: Environment variables dan proper error handling
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Chrome        │    │   Flask         │    │   External      │
+│   Extension     │◄──►│   Backend       │◄──►│   APIs          │
+│                 │    │                 │    │                 │
+│ - Content       │    │ - REST API      │    │ - UnleashNFTs   │
+│ - Popup         │    │ - CORS Support  │    │ - Gemini AI     │
+│ - Background    │    │ - Error Handling│    │ - Blockchain    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Docker & Docker Compose
+- API Keys (UnleashNFTs, Gemini)
+
+### Local Development
+
+1. **Clone Repository**
+```bash
+git clone <your-repo-url>
+cd backend
+```
+
+2. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configure API Keys
-Edit `api_config.py`:
-```python
-UNLEASH_NFT_API_KEY = "your_bitscrunch_api_key"
-GEMINI_API_KEY = "your_gemini_api_key"
+3. **Set Environment Variables**
+```bash
+# Create .env file
+cp .env.example .env
+
+# Edit .env file with your API keys
+UNLEASH_NFT_API_KEY=your_unleash_nft_api_key
+GEMINI_API_KEY=your_gemini_api_key
+SECRET_KEY=your_secret_key_here
+FLASK_ENV=development
 ```
 
-### 3. Run Server
+4. **Run Application**
 ```bash
+# Development mode
+python app.py
+
+# Or with Docker
+docker-compose up
+```
+
+5. **Test API**
+```bash
+# Health check
+curl http://localhost:5000/api/health
+
+# Set API keys
+curl -X POST http://localhost:5000/api/set_api_keys \
+  -H "Content-Type: application/json" \
+  -d '{
+    "unleash_nft_api_key": "your_key",
+    "gemini_api_key": "your_key"
+  }'
+
+# Analyze NFT
+curl -X POST http://localhost:5000/api/analyze_nft \
+  -H "Content-Type: application/json" \
+  -d '{
+    "blockchain": "ethereum",
+    "contract_address": "0x123...",
+    "token_id": "123"
+  }'
+```
+
+## 🚀 Simple Deployment
+
+### Local Development
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set environment variables
+cp env.example .env
+# Edit .env dengan API keys Anda
+
+# Run application
 python app.py
 ```
-Server will run on `http://localhost:5000`
 
-## 📁 File Structure
+### Coolify Deployment
+1. Push code ke repository
+2. Setup di Coolify dashboard dengan Source deployment
+3. Set environment variables
+4. Deploy dan monitor
 
-```
-backend/
-├── app.py              # Main Flask application
-├── config.py           # Configuration settings
-├── api_config.py       # API keys and endpoints
-├── requirements.txt    # Python dependencies
-└── README.md          # This file
-```
+## 📚 API Documentation
 
-## 🔧 API Endpoints
+### Endpoints
 
-### Health Check
+#### 1. Health Check
 ```
 GET /api/health
 ```
-Returns server status
+**Response:**
+```json
+{
+  "status": "ok",
+  "message": "Backend is running"
+}
+```
 
-### Set API Keys
+#### 2. Set API Keys
 ```
 POST /api/set_api_keys
 ```
-Body: `{"unleash_nft_api_key": "...", "gemini_api_key": "..."}`
+**Request:**
+```json
+{
+  "unleash_nft_api_key": "your_unleash_nft_api_key",
+  "gemini_api_key": "your_gemini_api_key"
+}
+```
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "API keys updated and SDKs initialized"
+}
+```
 
-### Analyze NFT
+#### 3. Analyze NFT
 ```
 POST /api/analyze_nft
 ```
-Body: `{"blockchain": "...", "contract_address": "...", "token_id": "..."}`
+**Request:**
+```json
+{
+  "blockchain": "ethereum",
+  "contract_address": "0x1234567890abcdef...",
+  "token_id": "123"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "blockchain": "ethereum",
+    "contract_address": "0x123...",
+    "token_id": "123",
+    "nft_metadata": {...},
+    "nft_metrics": {...},
+    "nft_valuation": {...},
+    "nft_price_history": {...},
+    "nft_traits": {...},
+    "nft_transactions": {...},
+    "ai_analysis": "Comprehensive AI analysis...",
+    "api_status": "Comprehensive BitsCrunch API data + AI analysis retrieved successfully"
+  }
+}
+```
 
-## 🔑 Required API Keys
+### Supported Blockchains
+- `ethereum` / `base`
+- `polygon`
+- `bsc`
 
-### BitsCrunch API
-- **Purpose**: NFT data and analytics
-- **Get from**: https://bitscrunch.com/
-- **Usage**: Metadata, metrics, valuation, price history
+## 🔧 Configuration
 
-### Gemini AI API
-- **Purpose**: AI analysis and insights
-- **Get from**: https://makersuite.google.com/app/apikey
-- **Usage**: Professional analysis reports
+### Environment Variables
 
-## 📊 Data Flow
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `UNLEASH_NFT_API_KEY` | UnleashNFTs API key | Yes | - |
+| `GEMINI_API_KEY` | Gemini AI API key | Yes | - |
+| `SECRET_KEY` | Flask secret key | No | Random |
+| `FLASK_ENV` | Flask environment | No | `production` |
+| `FLASK_DEBUG` | Debug mode | No | `False` |
 
-1. **Receive Request** from extension
-2. **Extract NFT Data** (contract, token ID)
-3. **Call BitsCrunch APIs**:
-   - NFT Metadata
-   - Volume & Sales
-   - Price History
-   - Valuation Data
-4. **Send to Gemini AI** for analysis
-5. **Return Comprehensive Report** to extension
+### Production Configuration
 
-## 🛠️ Development
+File `production.py` berisi konfigurasi khusus untuk production:
+- Security headers
+- CORS settings
+- Rate limiting
+- Performance optimizations
+- SSL/TLS settings
+
+## 🚀 Deployment
+
+### Coolify Deployment (Source Code)
+
+1. **Prepare Repository**
+   - Push code ke Git repository
+   - Ensure all files are committed
+
+2. **Coolify Dashboard Setup**
+   - Create new application
+   - Select "Source" deployment
+   - Configure repository settings
+   - Set environment variables
+   - Configure resource limits
+
+3. **Deploy**
+   - Click "Deploy"
+   - Monitor build logs
+   - Verify health check
 
 ### Local Development
+
 ```bash
-# Run in development mode
-export FLASK_ENV=development
+# Install dependencies
+pip install -r requirements.txt
+
+# Set environment variables
+cp env.example .env
+# Edit .env dengan API keys Anda
+
+# Run application
 python app.py
 ```
 
-### Production Deployment
+## 🧪 Testing
+
+### Local Testing
 ```bash
-# Use production WSGI server
-gunicorn app:app -b 0.0.0.0:5000
+# Test health check
+curl http://localhost:5000/api/health
+
+# Test with real API keys
+curl -X POST http://localhost:5000/api/set_api_keys \
+  -H "Content-Type: application/json" \
+  -d '{
+    "unleash_nft_api_key": "your_real_key",
+    "gemini_api_key": "your_real_key"
+  }'
 ```
 
-### Environment Variables
+### Manual Testing
 ```bash
-export UNLEASH_NFT_API_KEY="your_key"
-export GEMINI_API_KEY="your_key"
+# Health check
+curl http://localhost:5000/api/health
+
+# Test NFT analysis with real data
+curl -X POST http://localhost:5000/api/analyze_nft \
+  -H "Content-Type: application/json" \
+  -d '{
+    "blockchain": "ethereum",
+    "contract_address": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "token_id": "1"
+  }'
 ```
 
-## 📈 Monitoring
+## 🔍 Monitoring
+
+### Health Check
+- **Endpoint**: `/api/health`
+- **Interval**: 30s
+- **Timeout**: 10s
+- **Retries**: 3
 
 ### Logs
-- Check console output for API errors
-- Monitor BitsCrunch API rate limits
-- Track Gemini AI response times
+- Application logs via Coolify dashboard
+- Docker logs: `docker logs myntra-ai-backend`
+- Flask logs with proper formatting
 
-### Health Checks
-- `/api/health` endpoint for monitoring
-- Returns server status and API connectivity
+### Metrics
+- Response time monitoring
+- Error rate tracking
+- Resource usage monitoring
+- API call statistics
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+#### 1. Build Fails
+```bash
+# Check requirements
+pip install -r requirements.txt
+
+# Check Python version
+python --version
+```
+
+#### 2. Application Won't Start
+```bash
+# Check environment variables
+env | grep -E "(UNLEASH|GEMINI|SECRET)"
+
+# Check logs
+python app.py
+```
+
+#### 3. API Key Issues
+- Verify API keys are valid
+- Check environment variables
+- Restart application after changing env vars
+
+#### 4. CORS Issues
+- Check CORS configuration in `config.py`
+- Verify extension origin in CORS settings
+- Test with different browsers
+
+### Debug Commands
+
+```bash
+# Check application logs
+python app.py
+
+# Check environment variables
+env | grep -E "(UNLEASH|GEMINI|SECRET)"
+
+# Test health endpoint
+curl -f http://localhost:5000/api/health
+
+# Check Python version
+python --version
+```
 
 ## 🔒 Security
 
-### API Key Management
-- Store keys in environment variables
-- Never commit keys to version control
-- Use secure key rotation
+### Best Practices
+- ✅ Use environment variables for API keys
+- ✅ Implement proper CORS settings
+- ✅ Add security headers
+- ✅ Regular dependency updates
+- ✅ Input validation and sanitization
+- ✅ Rate limiting for API endpoints
 
-### CORS Configuration
-- Configure allowed origins for production
-- Restrict to specific domains if needed
-
-## 📦 Deployment Options
-
-### Local Development
-```bash
-python app.py
-```
-
-### Docker Deployment
-```dockerfile
-FROM python:3.9
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["python", "app.py"]
-```
-
-### Cloud Deployment
-- **Heroku**: Deploy as Python app
-- **AWS**: Use EC2 or Lambda
-- **Google Cloud**: App Engine or Cloud Run
-- **DigitalOcean**: Droplet with Python
-
-## 📝 Configuration
-
-### Update Backend URL
-If deploying to different domain, update extension's `background.js`:
-```javascript
-const BACKEND_URL = 'https://your-domain.com';
-```
-
-### CORS Settings
-For production, update CORS in `app.py`:
+### Security Headers
 ```python
-from flask_cors import CORS
-CORS(app, origins=['https://your-domain.com'])
+SECURITY_HEADERS = {
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'X-XSS-Protection': '1; mode=block',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+}
 ```
 
-## 🔧 Troubleshooting
+## 📈 Performance
 
-### Common Issues:
-1. **API Key Errors**: Verify keys in `api_config.py`
-2. **CORS Errors**: Check allowed origins
-3. **Rate Limits**: Monitor BitsCrunch API usage
-4. **Timeout Errors**: Increase request timeouts
+### Optimization Tips
+1. **Caching**: Implement Redis for API responses
+2. **Rate Limiting**: Add rate limiting for API endpoints
+3. **Compression**: Enable gzip compression
+4. **Monitoring**: Set up performance monitoring
+5. **Resource Limits**: Configure proper resource limits
 
-### Debug Mode
-```bash
-export FLASK_DEBUG=1
-python app.py
-```
+### Resource Requirements
+- **Memory**: 512M (recommended)
+- **CPU**: 0.5 cores (recommended)
+- **Storage**: Minimal (stateless application)
 
-## 📊 Performance
+## 🔄 Updates & Maintenance
 
-### Optimization Tips:
-- Implement caching for repeated requests
-- Use connection pooling for API calls
-- Monitor response times
-- Implement rate limiting if needed
+### Deployment Updates
+1. Push changes to repository
+2. Coolify auto-detects changes
+3. Monitor deployment logs
+4. Verify health check
 
-### Monitoring:
-- Track API response times
-- Monitor error rates
-- Check server resource usage
+### Backup Strategy
+- Backup environment variables
+- Backup application configuration
+- Document deployment changes
 
----
+### Rollback Plan
+1. Use Coolify rollback feature
+2. Keep previous working version
+3. Test rollback procedure
 
-**Myntra AI Backend** - Powered by BitsCrunch APIs & Gemini AI 
+## 📞 Support
+
+### Documentation
+- [Coolify Documentation](https://coolify.io/docs)
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [Python Documentation](https://docs.python.org/)
+- [UnleashNFTs API](https://docs.unleashnfts.com/)
+- [Gemini AI API](https://ai.google.dev/docs)
+
+### Community
+- Coolify Discord/Slack
+- Flask Community
+- Python Community
+
+### Emergency Contacts
+- Coolify Support
+- API Provider Support (UnleashNFTs, Gemini)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📝 Changelog
+
+### v1.0.0
+- Initial release
+- Flask backend with NFT analysis
+- AI integration with Gemini
+- Simple deployment without Docker
+- Coolify source deployment configuration 
