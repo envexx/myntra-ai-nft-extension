@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Myntra AI - Complete!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e8e8e8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .completion-container {
+      background: rgba(20, 20, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(64, 64, 128, 0.3);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .completion-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(98, 126, 255, 0.5) 50%, 
+        transparent);
+    }
+    
+    .completion-icon {
+      font-size: 80px;
+      margin-bottom: 32px;
+      animation: successPulse 2s ease-in-out;
+    }
+    
+    @keyframes successPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .completion-title {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 50%, #69db7c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 20px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    
+    .completion-message {
+      color: #94a3b8;
+      font-size: 16px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .completion-time {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 32px;
+      color: #4ade80;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .button {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 100%);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(98, 126, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      min-width: 160px;
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(98, 126, 255, 0.4);
+    }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
+    .button.secondary {
+      background: rgba(64, 64, 128, 0.3);
+      border: 1px solid rgba(64, 64, 128, 0.5);
+      box-shadow: none;
+    }
+    
+    .button.secondary:hover {
+      background: rgba(64, 64, 128, 0.4);
+      border-color: rgba(64, 64, 128, 0.7);
+      box-shadow: 0 4px 12px rgba(64, 64, 128, 0.2);
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #94a3b8;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #e8e8e8;
+      transform: scale(1.1);
+    }
+    
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .completion-container {
+        max-width: 90vw;
+        padding: 30px 20px;
+        min-height: 350px;
+      }
+      
+      .completion-icon {
+        font-size: 64px;
+        margin-bottom: 24px;
+      }
+      
+      .completion-title {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      
+      .completion-message {
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+      
+      .button {
+        padding: 14px 24px;
+        font-size: 14px;
+        min-width: 140px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="completion-container">
+    <button class="close-btn" onclick="window.close()">×</button>
+    
+                   <div class="completion-icon"><img id="myntraIcon" alt="Myntra AI" style="width: 80px; height: 80px;"></div>
+    <h1 class="completion-title">Myntra AI Analysis Complete!</h1>
+    <p class="completion-message">
+      NFT analysis has been successfully completed. 
+      Click the button below to open the extension and view the complete results.
+    </p>
+    
+    <div class="completion-time" id="completionTime">
+      Completed at <span id="timestamp"></span>
+    </div>
+    
+    <div class="button-group">
+              <button class="button" onclick="openExtension()">🔍 Open Extension</button>
+      <button class="button secondary" onclick="window.close()">Close</button>
+    </div>
+  </div>
+  
+  <script>
+    // Set Myntra AI icon
+    const myntraIcon = document.getElementById('myntraIcon');
+    if (myntraIcon) {
+      myntraIcon.src = chrome.runtime.getURL('icons/128.png');
+    }
+    
+    // Set timestamp
+    document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
+    
+    // Function to open extension
+    function openExtension() {
+      try {
+        // Method 1: Try to open extension popup directly
+        if (chrome && chrome.action && chrome.action.openPopup) {
+          chrome.action.openPopup();
+          console.log('Extension popup opened via chrome.action.openPopup');
+        }
+        
+        // Method 2: Send message to background script to open popup
+        if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage({
+            action: 'openExtensionPopup'
+          }, (response) => {
+            console.log('Background script response:', response);
+            if (response && response.success) {
+              console.log('Extension popup opened via background script');
+            } else {
+              console.log('Failed to open extension popup via background script');
+              // Fallback: open extension in new tab
+              openExtensionInTab();
+            }
+          });
+        } else {
+          console.log('Chrome runtime not available, trying fallback');
+          openExtensionInTab();
+        }
+        
+        // Close this window after opening extension
+        setTimeout(() => {
+          window.close();
+        }, 1000);
+        
+      } catch (error) {
+        console.error('Error opening extension:', error);
+        // Fallback: open extension in new tab
+        openExtensionInTab();
+      }
+    }
+    
+    // Fallback function to open extension in new tab
+    function openExtensionInTab() {
+      try {
+        if (chrome && chrome.tabs && chrome.tabs.create) {
+          chrome.tabs.create({
+            url: chrome.runtime.getURL('popup/popup.html')
+          });
+          console.log('Extension opened in new tab');
+        } else {
+          console.log('Chrome tabs API not available');
+          // Last resort: show message
+          alert('Extension popup cannot be opened automatically. Please click the extension icon in the browser toolbar.');
+        }
+      } catch (error) {
+        console.error('Error opening extension in tab:', error);
+        alert('Extension popup cannot be opened automatically. Please click the extension icon in the browser toolbar.');
+      }
+    }
+    
+    // Auto close after 60 seconds (extended from 30 seconds)
+    setTimeout(() => {
+      window.close();
+    }, 60000);
+    
+    // Add event listener for keyboard shortcuts
+    document.addEventListener('keydown', function(event) {
+      // ESC key to close
+      if (event.key === 'Escape') {
+        window.close();
+      }
+      // Enter key to open extension
+      if (event.key === 'Enter') {
+        openExtension();
+      }
+    });
+  </script>
+</body>
+</html> 

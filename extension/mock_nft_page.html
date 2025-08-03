@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock NFT Page - OpenSea</title>
+</head>
+<body>
+    <h1>Mock NFT Detail Page</h1>
+    <p>This is a simulated OpenSea page for testing the AI NFT Analyzer extension.</p>
+    <div id="nft-info" data-contract-address="0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d" data-token-id="123">
+        <h2>Bored Ape Yacht Club #123</h2>
+        <p>Contract Address: 0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d</p>
+        <p>Token ID: 123</p>
+        <img src="https://via.placeholder.com/300" alt="NFT Image">
+    </div>
+    <script>
+        // Simulate OpenSea URL structure for content script testing
+        Object.defineProperty(window, 'location', {
+            value: {
+                href: 'https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/123',
+                pathname: '/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/123'
+            },
+            writable: true
+        });
+    </script>
+</body>
+</html>
+

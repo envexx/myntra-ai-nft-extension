@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AI NFT Analyzer - Settings</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      color: #e8e8e8;
+    }
+    
+    .container {
+      background: rgba(20, 20, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(64, 64, 128, 0.3);
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(98, 126, 255, 0.5) 50%, 
+        transparent);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .header h1 {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 50%, #69db7c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    
+    .header .subtitle {
+      color: #9ca3af;
+      font-size: 16px;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+    
+    .section {
+      margin-bottom: 32px;
+      padding: 24px;
+      background: rgba(30, 30, 40, 0.6);
+      border: 1px solid rgba(64, 64, 128, 0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        rgba(98, 126, 255, 0.3) 0%, 
+        rgba(77, 171, 247, 0.3) 50%, 
+        rgba(105, 219, 124, 0.3) 100%);
+    }
+    
+    .section h2 {
+      color: #f8fafc;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section h2::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: linear-gradient(135deg, #627eff, #4dabf7);
+      border-radius: 2px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #e2e8f0;
+      font-size: 14px;
+    }
+    
+    .form-group input[type="password"],
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(15, 15, 25, 0.8);
+      border: 1px solid rgba(64, 64, 128, 0.3);
+      border-radius: 12px;
+      font-size: 14px;
+      color: #e8e8e8;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .form-group input[type="password"]:focus,
+    .form-group input[type="text"]:focus {
+      outline: none;
+      border-color: #627eff;
+      box-shadow: 
+        0 0 0 3px rgba(98, 126, 255, 0.1),
+        0 0 20px rgba(98, 126, 255, 0.2);
+      background: rgba(20, 20, 35, 0.9);
+    }
+    
+    .form-group input[type="password"]::placeholder,
+    .form-group input[type="text"]::placeholder {
+      color: #64748b;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #627eff;
+      border-radius: 4px;
+    }
+    
+    .checkbox-group label {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .button {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(98, 126, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(98, 126, 255, 0.4);
+    }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
+    .button.secondary {
+      background: rgba(64, 64, 128, 0.3);
+      border: 1px solid rgba(64, 64, 128, 0.5);
+      box-shadow: none;
+    }
+    
+    .button.secondary:hover {
+      background: rgba(64, 64, 128, 0.4);
+      border-color: rgba(64, 64, 128, 0.7);
+      box-shadow: 0 4px 12px rgba(64, 64, 128, 0.2);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .status {
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .status.success {
+      background: rgba(34, 197, 94, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .status.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .help-text {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    
+    .help-text a {
+      color: #4dabf7;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .help-text a:hover {
+      color: #627eff;
+      text-decoration: underline;
+    }
+    
+    .backend-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(15, 15, 25, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(64, 64, 128, 0.2);
+    }
+    
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      position: relative;
+    }
+    
+    .status-indicator.online {
+      background: #4ade80;
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+    }
+    
+    .status-indicator.online::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 2px solid rgba(74, 222, 128, 0.3);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-indicator.offline {
+      background: #f87171;
+      box-shadow: 0 0 8px rgba(248, 113, 113, 0.4);
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+    
+    .about-section {
+      background: rgba(25, 25, 35, 0.6);
+    }
+    
+    .about-section p {
+      margin: 8px 0;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    
+    .about-section p:first-of-type {
+      font-weight: 600;
+      color: #e2e8f0;
+      font-size: 16px;
+    }
+    
+    .supported-marketplaces {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .marketplace-tag {
+      padding: 6px 12px;
+      background: rgba(98, 126, 255, 0.1);
+      border: 1px solid rgba(98, 126, 255, 0.3);
+      border-radius: 8px;
+      color: #4dabf7;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .version-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: linear-gradient(135deg, #627eff, #4dabf7);
+      border-radius: 12px;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+              <h1><img id="myntraIcon" alt="Myntra AI" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;"> Myntra AI</h1>
+      <div class="subtitle">Web3 Intelligence for Smart NFT Decisions</div>
+    </div>
+    
+    <div class="section">
+      <h2>🔗 Backend Status</h2>
+      <div class="backend-status">
+        <div id="statusIndicator" class="status-indicator offline"></div>
+        <span id="statusText">Checking backend connection...</span>
+      </div>
+      <button id="testConnectionBtn" class="button secondary" style="margin-top: 12px;">Test Connection</button>
+    </div>
+    
+    <div class="section">
+      <h2>🔐 API Configuration</h2>
+      <div class="form-group">
+        <label for="unleashNftApiKey">UnleashNFTs API Key:</label>
+        <input type="password" id="unleashNftApiKey" placeholder="Enter your UnleashNFTs API key">
+        <div class="help-text">
+          Get your API key from <a href="https://bitscrunch.com/" target="_blank">bitsCrunch Platform</a>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="geminiApiKey">Google Gemini API Key:</label>
+        <input type="password" id="geminiApiKey" placeholder="Enter your Gemini API key">
+        <div class="help-text">
+          Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button id="saveApiKeysBtn" class="button">Save API Keys</button>
+        <button id="clearApiKeysBtn" class="button secondary">Clear All Keys</button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>⚙️ Analysis Settings</h2>
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" id="autoAnalyze">
+          <label for="autoAnalyze">Automatically analyze NFTs when visiting marketplace pages</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" id="showRiskWarnings">
+          <label for="showRiskWarnings">Show risk warnings for high-risk NFTs</label>
+        </div>
+      </div>
+      
+      <button id="saveSettingsBtn" class="button">Save Settings</button>
+    </div>
+    
+    <div class="section about-section">
+      <h2>ℹ️ About</h2>
+      <p>AI NFT Analyzer <span class="version-badge">v1.0</span></p>
+      <p>Harness the power of AI to make informed decisions in the NFT space. Get comprehensive analysis of historical performance, current valuation, and future potential.</p>
+      <p><strong>Supported Marketplaces:</strong></p>
+      <div class="supported-marketplaces">
+        <span class="marketplace-tag">OpenSea</span>
+        <span class="marketplace-tag">Rarible</span>
+      </div>
+    </div>
+    
+    <div id="statusMessage" style="display: none;"></div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 380px;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e8e8e8;
+      min-height: 500px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      padding: 20px;
+      background: rgba(20, 20, 30, 0.95);
+      backdrop-filter: blur(20px);
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        rgba(98, 126, 255, 0.5) 0%, 
+        rgba(77, 171, 247, 0.5) 50%, 
+        rgba(105, 219, 124, 0.5) 100%);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .header h1 {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 50%, #69db7c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    
+    .header .subtitle {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+    
+    .status {
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .status::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    .status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+    }
+    
+    .status.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+    }
+    
+    .status.info {
+      background: rgba(98, 126, 255, 0.15);
+      color: #4dabf7;
+      border: 1px solid rgba(98, 126, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(98, 126, 255, 0.1);
+    }
+    
+    .button {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 100%);
+      color: white;
+      border: none;
+      padding: 14px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(98, 126, 255, 0.3);
+    }
+    
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .button:hover::before {
+      left: 100%;
+    }
+    
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(98, 126, 255, 0.4);
+    }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
+    .button:disabled {
+      background: rgba(64, 64, 128, 0.3);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .button.secondary {
+      background: rgba(30, 30, 40, 0.8);
+      border: 1px solid rgba(64, 64, 128, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .button.secondary:hover {
+      background: rgba(40, 40, 50, 0.9);
+      border-color: rgba(98, 126, 255, 0.6);
+      box-shadow: 0 4px 12px rgba(98, 126, 255, 0.2);
+    }
+    
+    .analysis-result {
+      background: rgba(15, 15, 25, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      border-radius: 16px;
+      margin-top: 16px;
+      border: 1px solid rgba(64, 64, 128, 0.3);
+      max-height: 320px;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .analysis-result::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(98, 126, 255, 0.4) 50%, 
+        transparent);
+    }
+    
+    .analysis-result::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .analysis-result::-webkit-scrollbar-track {
+      background: rgba(30, 30, 40, 0.5);
+      border-radius: 3px;
+    }
+    
+    .analysis-result::-webkit-scrollbar-thumb {
+      background: rgba(98, 126, 255, 0.4);
+      border-radius: 3px;
+    }
+    
+    .analysis-result::-webkit-scrollbar-thumb:hover {
+      background: rgba(98, 126, 255, 0.6);
+    }
+    
+    .analysis-item {
+      margin-bottom: 16px;
+      padding: 14px;
+      background: rgba(25, 25, 35, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(64, 64, 128, 0.2);
+      position: relative;
+    }
+    
+    .analysis-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .analysis-item strong {
+      color: #f1f5f9;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .analysis-item .value {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    
+    .analysis-item small {
+      color: #64748b;
+      font-size: 11px;
+      font-style: italic;
+    }
+    
+    .risk-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .risk-low {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .risk-low::before {
+      content: '●';
+      color: #4ade80;
+    }
+    
+    .risk-medium {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    
+    .risk-medium::before {
+      content: '●';
+      color: #fbbf24;
+    }
+    
+    .risk-high {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .risk-high::before {
+      content: '●';
+      color: #f87171;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 32px 20px;
+      background: rgba(15, 15, 25, 0.8);
+      border-radius: 16px;
+      border: 1px solid rgba(64, 64, 128, 0.3);
+      margin-top: 16px;
+    }
+    
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(98, 126, 255, 0.2);
+      border-top: 3px solid #627eff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+    
+    .loading-text {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .loading-dots {
+      color: #4dabf7;
+      font-weight: 600;
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60% { content: '...'; }
+      80%, 100% { content: '....'; }
+    }
+    
+    .nft-info {
+      background: rgba(25, 25, 35, 0.8);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(64, 64, 128, 0.3);
+    }
+    
+    .nft-info .title {
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    
+    .nft-info .collection {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    
+    .score-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    .score-excellent {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .score-good {
+      background: rgba(77, 171, 247, 0.2);
+      color: #4dabf7;
+      border: 1px solid rgba(77, 171, 247, 0.3);
+    }
+    
+    .score-fair {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    
+    .score-poor {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .auto-analysis-control {
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: rgba(25, 25, 35, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(64, 64, 128, 0.3);
+    }
+    
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #e8e8e8;
+    }
+    
+    .toggle-label input[type="checkbox"] {
+      display: none;
+    }
+    
+    .toggle-slider {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: rgba(64, 64, 128, 0.4);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(64, 64, 128, 0.6);
+    }
+    
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: #94a3b8;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .toggle-label input[type="checkbox"]:checked + .toggle-slider {
+      background: linear-gradient(135deg, #627eff 0%, #4dabf7 100%);
+      border-color: rgba(98, 126, 255, 0.6);
+    }
+    
+    .toggle-label input[type="checkbox"]:checked + .toggle-slider::before {
+      transform: translateX(20px);
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .toggle-text {
+      flex: 1;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .button-group .button {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    
+    .chart-container {
+      padding: 16px;
+      background: rgba(15, 15, 25, 0.6);
+      border-radius: 8px;
+      margin: 12px 0;
+      position: relative;
+      height: 200px;
+    }
+    
+    .price-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(25, 25, 35, 0.4);
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-label {
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+      font-family: monospace;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .stat-value.price-positive {
+      color: #4ade80;
+    }
+    
+    .stat-value.price-negative {
+      color: #f87171;
+    }
+    
+    .stat-value.price-neutral {
+      color: #fbbf24;
+    }
+    
+    .metrics-period {
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 400;
+    }
+    
+    .metrics-content {
+      padding: 16px;
+    }
+    
+    .metrics-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    
+    .metric-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    
+    .metric-icon {
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(98, 126, 255, 0.2);
+      border-radius: 8px;
+    }
+    
+    .metric-info {
+      flex: 1;
+    }
+    
+    .metric-label {
+      display: block;
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    
+    .metric-value {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      font-family: monospace;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .metrics-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(25, 25, 35, 0.4);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+    
+    .summary-label {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .summary-value {
+      font-weight: 600;
+      color: #e8e8e8;
+    }
+    
+    .summary-value.high {
+      color: #4ade80;
+    }
+    
+    .summary-value.medium {
+      color: #fbbf24;
+    }
+    
+    .summary-value.low {
+      color: #f87171;
+    }
+    
+    .summary-value.inactive {
+      color: #6c757d;
+    }
+    
+    .transactions-count {
+      background: #6f42c1;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    
+    .transactions-content {
+      padding: 16px;
+    }
+    
+    .transactions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .transaction-item {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    
+    .transaction-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+    
+    .transaction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .transaction-number {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .transaction-type {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .transaction-type.sale {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+    }
+    
+    .transaction-type.mint {
+      background: rgba(98, 126, 255, 0.2);
+      color: #4dabf7;
+    }
+    
+    .transaction-type.transfer {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+    
+    .transaction-type.unknown {
+      background: rgba(108, 117, 125, 0.2);
+      color: #6c757d;
+    }
+    
+    .transaction-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .transaction-price,
+    .transaction-date {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .price-label,
+    .date-label {
+      font-size: 9px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .price-value,
+    .date-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ffffff;
+      font-family: monospace;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .transaction-addresses {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .address-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+    }
+    
+    .address-label {
+      color: #94a3b8;
+      font-weight: 500;
+      min-width: 40px;
+    }
+    
+    .address-value {
+      color: #e8e8e8;
+      font-family: monospace;
+      font-size: 9px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    .transactions-more {
+      text-align: center;
+      padding: 8px;
+      margin-top: 8px;
+    }
+    
+    .more-text {
+      font-size: 11px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+    
+    .no-transactions {
+      text-align: center;
+      padding: 32px 20px;
+    }
+    
+    .no-transactions-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+    
+    .no-transactions-text h5 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #e8e8e8;
+    }
+    
+    .no-transactions-text p {
+      margin: 0;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><img id="myntraIcon" alt="Myntra AI" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;"> Myntra AI</h1>
+      <div class="subtitle">NFT insights . Powered by bitsCrunch APIs.</div>
+    </div>
+    
+    <div id="status" class="status info">
+      Backend connected
+    </div>
+    
+    <button id="analyzeBtn" class="button">🔍 Analyze Current NFT</button>
+    <div class="button-group">
+      <button id="optionsBtn" class="button secondary">⚙️ Settings</button>
+      <button id="clearCacheBtn" class="button secondary">🗑️ Clear Cache</button>
+    </div>
+    
+    <div class="auto-analysis-control">
+      <label class="toggle-label">
+        <input type="checkbox" id="autoAnalysisToggle" checked>
+        <span class="toggle-slider"></span>
+        <span class="toggle-text">Auto-analyze on page load</span>
+      </label>
+    </div>
+    
+    <div id="loading" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <div class="loading-text">Analyzing NFT<span class="loading-dots"></span></div>
+    </div>
+    
+    <div id="analysisResult" class="analysis-result" style="display: none;">
+      <!-- Analysis results will be populated here -->
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
