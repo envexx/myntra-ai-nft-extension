@@ -1,4 +1,4 @@
-# 🚀 Deployment Sederhana Myntra AI Backend
+# 🚀 Myntra AI Backend Deployment
 
 ## 📋 File yang Diperlukan
 
@@ -9,11 +9,11 @@ backend/
 ├── requirements.txt    # Python dependencies
 ├── Procfile           # Start command
 ├── runtime.txt        # Python version
-├── env.example        # Environment template
+├── api_config.py      # API keys (untuk localhost)
 └── README.md          # Documentation
 ```
 
-## 🎯 Deployment di Coolify (Tanpa Docker)
+## 🎯 Deployment di Coolify
 
 ### 1. **Source Code Deployment**
 
@@ -24,8 +24,8 @@ backend/
 4. Connect repository GitHub/GitLab
 
 #### B. Konfigurasi Repository
-- **Repository URL**: URL repository Anda
-- **Branch**: `main` atau `master`
+- **Repository URL**: `https://github.com/envexx/myntra-ai-nft-extension`
+- **Branch**: `main`
 - **Root Directory**: `backend/`
 
 #### C. Build Configuration
@@ -35,20 +35,11 @@ backend/
 
 #### D. Environment Variables
 ```
-UNLEASH_NFT_API_KEY=your_unleash_nft_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
+UNLEASH_NFT_API_KEY=a18b2d19a5d1439aa5e029da8a786328
+GEMINI_API_KEY=AIzaSyBY2o7XvjPLagIBOksRxNIn_drirPeS7jQ
 SECRET_KEY=your_secret_key_here
 FLASK_ENV=production
 ```
-
-#### E. Resource Limits (Opsional)
-- **Memory**: 512M
-- **CPU**: 0.5 cores
-
-### 2. **Deploy**
-1. Klik "Deploy"
-2. Monitor build logs
-3. Verify health check
 
 ## 🧪 Testing
 
@@ -63,8 +54,8 @@ curl http://your-domain:5000/api/health
 curl -X POST http://your-domain:5000/api/set_api_keys \
   -H "Content-Type: application/json" \
   -d '{
-    "unleash_nft_api_key": "your_key",
-    "gemini_api_key": "your_key"
+    "unleash_nft_api_key": "a18b2d19a5d1439aa5e029da8a786328",
+    "gemini_api_key": "AIzaSyBY2o7XvjPLagIBOksRxNIn_drirPeS7jQ"
   }'
 
 # Test NFT analysis
@@ -72,8 +63,8 @@ curl -X POST http://your-domain:5000/api/analyze_nft \
   -H "Content-Type: application/json" \
   -d '{
     "blockchain": "ethereum",
-    "contract_address": "0x123...",
-    "token_id": "123"
+    "contract_address": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "token_id": "1"
   }'
 ```
 
@@ -84,11 +75,7 @@ curl -X POST http://your-domain:5000/api/analyze_nft \
 # Install dependencies
 pip install -r requirements.txt
 
-# Set environment variables
-cp env.example .env
-# Edit .env dengan API keys Anda
-
-# Run application
+# Run application (localhost untuk penjurian)
 python app.py
 ```
 
@@ -101,16 +88,14 @@ curl http://localhost:5000/api/health
 curl -X POST http://localhost:5000/api/set_api_keys \
   -H "Content-Type: application/json" \
   -d '{
-    "unleash_nft_api_key": "your_key",
-    "gemini_api_key": "your_key"
+    "unleash_nft_api_key": "a18b2d19a5d1439aa5e029da8a786328",
+    "gemini_api_key": "AIzaSyBY2o7XvjPLagIBOksRxNIn_drirPeS7jQ"
   }'
 ```
 
-## 📚 API Documentation
+## 📚 API Endpoints
 
-### Endpoints
-
-#### 1. Health Check
+### 1. Health Check
 ```
 GET /api/health
 ```
@@ -122,7 +107,7 @@ GET /api/health
 }
 ```
 
-#### 2. Set API Keys
+### 2. Set API Keys
 ```
 POST /api/set_api_keys
 ```
@@ -134,7 +119,7 @@ POST /api/set_api_keys
 }
 ```
 
-#### 3. Analyze NFT
+### 3. Analyze NFT
 ```
 POST /api/analyze_nft
 ```
@@ -209,8 +194,8 @@ env | grep -E "(UNLEASH|GEMINI|SECRET)"
 ### Environment Variables
 ```bash
 # Required
-UNLEASH_NFT_API_KEY=your_key
-GEMINI_API_KEY=your_key
+UNLEASH_NFT_API_KEY=a18b2d19a5d1439aa5e029da8a786328
+GEMINI_API_KEY=AIzaSyBY2o7XvjPLagIBOksRxNIn_drirPeS7jQ
 
 # Optional
 SECRET_KEY=your_secret
@@ -221,47 +206,35 @@ FLASK_DEBUG=False
 ## 📝 Checklist Deployment
 
 ### Sebelum Deploy
-- [ ] Repository sudah siap
-- [ ] requirements.txt lengkap
-- [ ] app.py berfungsi
-- [ ] Environment variables siap
-- [ ] API keys valid
+- [x] Repository sudah siap
+- [x] requirements.txt lengkap
+- [x] app.py berfungsi
+- [x] Environment variables siap
+- [x] API keys valid
 
 ### Setelah Deploy
-- [ ] Health check berhasil
-- [ ] API endpoints berfungsi
-- [ ] Logs tidak ada error
-- [ ] Performance normal
+- [x] Health check berhasil
+- [x] API endpoints berfungsi
+- [x] Logs tidak ada error
+- [x] Performance normal
 
-## 🎯 Keuntungan Tanpa Docker
-
-### ✅ **Lebih Sederhana**
-- Tidak perlu Dockerfile
-- Tidak perlu container management
-- Setup lebih cepat
+## 🎯 Keuntungan Optimasi
 
 ### ✅ **Lebih Ringan**
-- Tidak ada overhead container
-- Resource usage lebih rendah
-- Startup lebih cepat
+- Menghapus logging berlebihan
+- Mengurangi import yang tidak diperlukan
+- Optimasi error handling
 
-### ✅ **Lebih Mudah Debug**
-- Logs lebih straightforward
-- Error handling lebih mudah
-- Development lebih natural
+### ✅ **Lebih Cepat**
+- Response time lebih cepat
+- Memory usage lebih rendah
+- Startup time lebih cepat
 
-## 📞 Support
-
-### Documentation
-- [Coolify Documentation](https://coolify.io/docs)
-- [Flask Documentation](https://flask.palletsprojects.com/)
-- [Python Documentation](https://docs.python.org/)
-
-### Community
-- Coolify Discord/Slack
-- Flask Community
-- Python Community
+### ✅ **Lebih Stabil**
+- Error handling yang lebih baik
+- Logging yang lebih fokus
+- Code yang lebih bersih
 
 ---
 
-**Myntra AI Backend** - Simple deployment without Docker! 🚀 
+**Myntra AI Backend** - Optimized for production! 🚀 

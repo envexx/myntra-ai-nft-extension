@@ -2153,7 +2153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   async function checkBackendStatus() {
     try {
-      const response = await fetch('http://localhost:5000/api/health');
+      const response = await fetch('http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io/api/health');
       if (response.ok) {
         updateStatus('Backend connected', 'success');
       } else {

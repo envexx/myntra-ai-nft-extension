@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Send API keys to backend
   async function sendApiKeysToBackend(unleashNftKey, geminiKey) {
     try {
-      const response = await fetch('http://localhost:5000/api/set_api_keys', {
+      const response = await fetch('http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io/api/set_api_keys', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
       statusText.textContent = 'Checking connection...';
       statusIndicator.className = 'status-indicator offline';
 
-      const response = await fetch('http://localhost:5000/api/health', {
+      const response = await fetch('http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io/api/health', {
         method: 'GET',
         timeout: 5000
       });

@@ -104,7 +104,7 @@ Go to any NFT on supported marketplaces:
 If you encounter issues:
 1. Check the main README.md for backend setup
 2. Verify all API keys are configured
-3. Ensure backend server is running on localhost:5000
+3. Ensure backend server is running on http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io
 
 ---
 

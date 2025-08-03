@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra AI - Redirecting...</title>
+    <link rel="icon" type="image/png" href="picture/128.png">
+    <link rel="apple-touch-icon" href="picture/128.png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(98, 126, 255, 0.3);
+            border-top: 3px solid #627eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #627eff, #4dabf7, #69db7c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <h1 class="gradient-text">Myntra AI</h1>
+        <p>Redirecting to landing page...</p>
+    </div>
+    
+    <script>
+        // Redirect to landing page after a short delay
+        setTimeout(() => {
+            window.location.href = 'landing-page.html';
+        }, 1500);
+    </script>
+</body>
+</html> 

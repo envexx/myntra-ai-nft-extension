@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra AI - Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'web3-dark': '#0a0a0f',
+                        'web3-darker': '#1a1a2e',
+                        'web3-accent': '#16213e',
+                        'web3-blue': '#627eff',
+                        'web3-cyan': '#4dabf7',
+                        'web3-green': '#69db7c',
+                        'web3-card': 'rgba(20, 20, 30, 0.95)',
+                        'web3-border': 'rgba(64, 64, 128, 0.3)',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'Fira Code', 'Monaco', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'light-run-vertical': 'lightRunVertical 4s linear infinite',
+                        'light-run-horizontal': 'lightRunHorizontal 5s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(98, 126, 255, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(98, 126, 255, 0.6)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        lightRunVertical: {
+                            '0%': { transform: 'translateY(-100%)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateY(100vh)', opacity: '0' },
+                        },
+                        lightRunHorizontal: {
+                            '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateX(100vw)', opacity: '0' },
+                        },
+                    },
+                    backgroundImage: {
+                        'web3-gradient': 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
+                        'card-gradient': 'linear-gradient(135deg, rgba(98, 126, 255, 0.1) 0%, rgba(77, 171, 247, 0.1) 100%)',
+                        'button-gradient': 'linear-gradient(135deg, #627eff 0%, #4dabf7 100%)',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-web3-gradient min-h-screen text-white font-inter relative">
+    <!-- Animated Light Lines -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Vertical Lines -->
+        <div class="absolute left-1/5 top-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-15">
+            <div class="w-4 h-16 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical"></div>
+        </div>
+        <div class="absolute right-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-20">
+            <div class="w-4 h-20 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <!-- Horizontal Lines -->
+        <div class="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-15">
+            <div class="w-16 h-4 bg-gradient-to-r from-transparent via-white to-transparent animate-light-run-horizontal"></div>
+        </div>
+        <div class="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-20">
+            <div class="w-20 h-4 bg-gradient-to-r from-transparent via-white to-transparent animate-light-run-horizontal" style="animation-delay: 1.5s;"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-web3-card/90 border-b border-web3-border">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="picture/icon128.png" alt="Myntra AI Logo" class="w-10 h-10 rounded-xl">
+                    <span class="text-xl font-bold bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        Myntra AI Documentation
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.history.back()" class="text-gray-300 hover:text-web3-cyan transition-colors duration-300">
+                        ← Back
+                    </button>
+                    <button class="bg-button-gradient px-4 py-2 rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-web3-blue/30 transition-all duration-300">
+                        Install Extension
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-20 relative z-10">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Sidebar -->
+                <div class="lg:w-1/4">
+                    <div class="sticky top-24">
+                        <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold mb-4 text-white">Table of Contents</h3>
+                            <nav id="toc" class="space-y-2">
+                                <a href="#installation" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    🔍 Installation
+                                </a>
+                                <a href="#usage" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    🎯 How to Use
+                                </a>
+                                <a href="#analysis" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    📊 Analysis Results
+                                </a>
+                                <a href="#settings" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    ⚙️ Settings
+                                </a>
+                                <a href="#troubleshooting" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    🔧 Troubleshooting
+                                </a>
+                                <a href="#features" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    📱 Features
+                                </a>
+                                <a href="#privacy" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    🔒 Privacy & Security
+                                </a>
+                                <a href="#support" class="block text-gray-300 hover:text-web3-cyan transition-colors duration-300 py-1 text-sm">
+                                    📞 Support
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Documentation -->
+                <div class="lg:w-3/4">
+                    <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8">
+                        <!-- Header -->
+                        <div class="text-center mb-12">
+                            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                                <span class="bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                                    User Guide
+                                </span>
+                            </h1>
+                            <p class="text-xl text-gray-300">Complete guide to using Myntra AI Extension</p>
+                        </div>
+
+                        <!-- Installation Section -->
+                        <section id="installation" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">🔍</span>
+                                Installation
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Step 1: Download Extension Files</h3>
+                                    <p class="text-gray-300 mb-4">Download the <code class="bg-web3-dark px-2 py-1 rounded text-web3-green font-mono">extension/</code> folder to your computer.</p>
+                                </div>
+
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Step 2: Load in Chrome</h3>
+                                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                        <li>Open Google Chrome</li>
+                                        <li>Go to <code class="bg-web3-dark px-2 py-1 rounded text-web3-green font-mono">chrome://extensions/</code></li>
+                                        <li>Enable "Developer mode" (toggle in top right)</li>
+                                        <li>Click "Load unpacked"</li>
+                                        <li>Select the <code class="bg-web3-dark px-2 py-1 rounded text-web3-green font-mono">extension/</code> folder</li>
+                                        <li>The Myntra AI extension should now appear in your extensions list</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Usage Section -->
+                        <section id="usage" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">🎯</span>
+                                How to Use
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">1. Navigate to NFT Page</h3>
+                                    <p class="text-gray-300 mb-4">Go to any NFT on supported marketplaces:</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div class="flex items-center space-x-3 bg-web3-dark/50 p-3 rounded-lg">
+                                            <span class="text-2xl">🌊</span>
+                                            <span class="text-gray-300">OpenSea (opensea.io)</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-web3-dark/50 p-3 rounded-lg">
+                                            <span class="text-2xl">🎨</span>
+                                            <span class="text-gray-300">Rarible (rarible.com)</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-web3-dark/50 p-3 rounded-lg">
+                                            <span class="text-2xl">⚡</span>
+                                            <span class="text-gray-300">Blur (blur.io)</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-web3-dark/50 p-3 rounded-lg">
+                                            <span class="text-2xl">👁️</span>
+                                            <span class="text-gray-300">LooksRare (looksrare.org)</span>
+                                        </div>
+                                        <div class="flex items-center space-x-3 bg-web3-dark/50 p-3 rounded-lg">
+                                            <span class="text-2xl">💎</span>
+                                            <span class="text-gray-300">X2Y2 (x2y2.io)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">2. Analyze NFT</h3>
+                                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                        <li>Click the Myntra AI extension icon in your browser toolbar</li>
+                                        <li>Click "🔍 Analyze Current NFT"</li>
+                                        <li>Wait for analysis to complete</li>
+                                        <li>View comprehensive results</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Analysis Results Section -->
+                        <section id="analysis" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">📊</span>
+                                What You'll See
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Analysis Results Include:</h3>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">📋 NFT Metadata</h4>
+                                            <p class="text-sm text-gray-400">Name, collection, owner details</p>
+                                        </div>
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">📈 Price History</h4>
+                                            <p class="text-sm text-gray-400">Charts and market trends</p>
+                                        </div>
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">📊 Volume & Sales</h4>
+                                            <p class="text-sm text-gray-400">Market activity analysis</p>
+                                        </div>
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">🤖 AI Valuation</h4>
+                                            <p class="text-sm text-gray-400">Smart price estimates</p>
+                                        </div>
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">🛡️ Risk Assessment</h4>
+                                            <p class="text-sm text-gray-400">Investment risk analysis</p>
+                                        </div>
+                                        <div class="bg-web3-dark/50 p-4 rounded-lg">
+                                            <h4 class="font-semibold text-web3-green mb-2">💡 Professional Insights</h4>
+                                            <p class="text-sm text-gray-400">Actionable recommendations</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gradient-to-r from-web3-blue/10 to-web3-cyan/10 rounded-xl p-6 border border-web3-blue/30">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Myntra AI Analysis Features:</h3>
+                                    <ul class="space-y-3 text-gray-300">
+                                        <li class="flex items-start gap-3">
+                                            <span class="text-web3-green text-lg">✓</span>
+                                            <span><strong>Executive Summary</strong> with clear buy/sell recommendations</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="text-web3-green text-lg">✓</span>
+                                            <span><strong>Risk Assessment Matrix</strong> with specific indicators</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="text-web3-green text-lg">✓</span>
+                                            <span><strong>Trading Intelligence</strong> with entry/exit strategies</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="text-web3-green text-lg">✓</span>
+                                            <span><strong>Comparative Analysis</strong> against similar NFTs</span>
+                                        </li>
+                                        <li class="flex items-start gap-3">
+                                            <span class="text-web3-green text-lg">✓</span>
+                                            <span><strong>Monitoring Alerts</strong> for critical watchpoints</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Settings Section -->
+                        <section id="settings" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">⚙️</span>
+                                Settings
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Access Settings:</h3>
+                                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                        <li>Click extension icon</li>
+                                        <li>Click "⚙️ Settings"</li>
+                                        <li>Configure API keys and preferences</li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-xl font-semibold mb-4 text-web3-cyan">Auto-Analysis:</h3>
+                                    <ul class="space-y-2 text-gray-300">
+                                        <li>• Toggle "Auto-analyze on page load" for automatic analysis</li>
+                                        <li>• Clear cache when needed for fresh data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Troubleshooting Section -->
+                        <section id="troubleshooting" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">🔧</span>
+                                Troubleshooting
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+                                    <h3 class="text-xl font-semibold mb-4 text-red-400">Extension Not Working?</h3>
+                                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                        <li><strong>Check Backend:</strong> Ensure backend server is running</li>
+                                        <li><strong>Reload Extension:</strong> Go to <code class="bg-web3-dark px-2 py-1 rounded text-web3-green font-mono">chrome://extensions/</code> and click reload</li>
+                                        <li><strong>Check Console:</strong> Press F12 to see error messages</li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-orange-900/20 border border-orange-500/30 rounded-xl p-6">
+                                    <h3 class="text-xl font-semibold mb-4 text-orange-400">Analysis Fails?</h3>
+                                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                        <li><strong>Verify API Keys:</strong> Check settings for valid API keys</li>
+                                        <li><strong>Check Network:</strong> Ensure stable internet connection</li>
+                                        <li><strong>Try Again:</strong> Some NFTs may not have sufficient data</li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-6">
+                                    <h3 class="text-xl font-semibold mb-4 text-yellow-400">Common Issues:</h3>
+                                    <ul class="space-y-2 text-gray-300">
+                                        <li><strong>"Backend not running":</strong> Start the Python backend server</li>
+                                        <li><strong>"No data available":</strong> Try with a more popular NFT collection</li>
+                                        <li><strong>"Analysis timeout":</strong> Check API keys and network connection</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Features Section -->
+                        <section id="features" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">📱</span>
+                                Features
+                            </h2>
+                            
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-lg font-semibold mb-3 text-web3-green">🚀 Real-time Analysis</h3>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• Instant NFT data extraction</li>
+                                        <li>• Live market data integration</li>
+                                        <li>• Professional AI insights</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-lg font-semibold mb-3 text-web3-green">🌐 Multi-Marketplace Support</h3>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• Works on all major NFT marketplaces</li>
+                                        <li>• Automatic data extraction</li>
+                                        <li>• Consistent analysis format</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                    <h3 class="text-lg font-semibold mb-3 text-web3-green">📊 Professional Reports</h3>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• Executive summaries</li>
+                                        <li>• Risk assessments</li>
+                                        <li>• Trading recommendations</li>
+                                        <li>• Price predictions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Privacy Section -->
+                        <section id="privacy" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">🔒</span>
+                                Privacy & Security
+                            </h2>
+                            
+                            <div class="bg-green-900/20 border border-green-500/30 rounded-xl p-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-green-400 mb-2">🚫 No Data Storage</h3>
+                                        <p class="text-sm text-gray-300">Analysis results are not stored</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-green-400 mb-2">🔐 Secure Communication</h3>
+                                        <p class="text-sm text-gray-300">All API calls use HTTPS</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-green-400 mb-2">💻 Local Processing</h3>
+                                        <p class="text-sm text-gray-300">Extension runs entirely in your browser</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-green-400 mb-2">🔑 API Keys</h3>
+                                        <p class="text-sm text-gray-300">Stored securely in backend only</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Support Section -->
+                        <section id="support" class="mb-12 animate-fade-in">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span class="text-web3-cyan">📞</span>
+                                Support
+                            </h2>
+                            
+                            <div class="bg-web3-darker/50 rounded-xl p-6 border border-web3-border">
+                                <p class="text-gray-300 mb-4">If you encounter issues:</p>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-300 mb-6">
+                                    <li>Check the main README.md for backend setup</li>
+                                    <li>Verify all API keys are configured</li>
+                                    <li>Ensure backend server is running on <code class="bg-web3-dark px-2 py-1 rounded text-web3-green font-mono">http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io</code></li>
+                                </ol>
+                                
+                                <div class="border-t border-web3-border pt-6">
+                                    <p class="text-center text-gray-400">
+                                        <strong class="text-web3-cyan">Myntra AI</strong> - NFT insights powered by bitsCrunch APIs
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('#toc a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active state to TOC links
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '-20% 0px -80% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const tocLink = document.querySelector(`#toc a[href="#${id}"]`);
+                
+                if (entry.isIntersecting) {
+                    // Remove active class from all links
+                    document.querySelectorAll('#toc a').forEach(link => {
+                        link.classList.remove('text-web3-cyan', 'font-semibold');
+                        link.classList.add('text-gray-300');
+                    });
+                    
+                    // Add active class to current link
+                    if (tocLink) {
+                        tocLink.classList.remove('text-gray-300');
+                        tocLink.classList.add('text-web3-cyan', 'font-semibold');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                navbar.classList.add('backdrop-blur-xl', 'bg-web3-card');
+            } else {
+                navbar.classList.remove('backdrop-blur-xl', 'bg-web3-card');
+            }
+        });
+
+        // Add animation to sections on scroll
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            sectionObserver.observe(section);
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@ import json
 import requests
 
 # Import SDKs UnleashNFTs
-from bitscrunch_unleashnftV2_sdk import NFT_Market_Insights, CollectionAPI, NFT_Price_Estimate, NFT_Transactions, NFTWalletAPI, NFTAPI
+from bitscrunch_unleashnftV2_sdk import NFT_Market_Insights, NFT_Price_Estimate, NFT_Transactions, NFTAPI
 
 app = Flask(__name__)
 CORS(app) # Mengaktifkan CORS untuk komunikasi dengan ekstensi browser
@@ -25,25 +25,21 @@ if not UNLEASH_NFT_API_KEY or not GEMINI_API_KEY:
     except ImportError:
         pass
 
-# Inisialisasi SDK UnleashNFTs (akan diinisialisasi ulang jika kunci API diatur melalui endpoint)
+# Inisialisasi SDK UnleashNFTs
 market_insights_sdk = None
-collection_sdk = None
 price_estimate_sdk = None
 nft_transactions_sdk = None
-nft_wallets_sdk = None
 nft_sdk = None
 
 # Inisialisasi Gemini API key (akan diatur oleh initialize_sdks)
 
 def initialize_sdks(unleash_key, gemini_key):
-    global market_insights_sdk, collection_sdk, price_estimate_sdk, nft_transactions_sdk, nft_wallets_sdk, nft_sdk, GEMINI_API_KEY
+    global market_insights_sdk, price_estimate_sdk, nft_transactions_sdk, nft_sdk, GEMINI_API_KEY
     
     if unleash_key:
         market_insights_sdk = NFT_Market_Insights(unleash_key)
-        collection_sdk = CollectionAPI(unleash_key)
         price_estimate_sdk = NFT_Price_Estimate(unleash_key)
         nft_transactions_sdk = NFT_Transactions(unleash_key)
-        nft_wallets_sdk = NFTWalletAPI(unleash_key)
         nft_sdk = NFTAPI(unleash_key)
     
     if gemini_key:
@@ -95,7 +91,6 @@ def analyze_nft():
     }
     
     api_blockchain = blockchain_mapping.get(blockchain.lower(), 1)  # Default ke Ethereum
-    app.logger.info(f"Original blockchain: {blockchain}, Mapped to: {api_blockchain}")
 
     try:
         # 1. Dapatkan NFT metadata menggunakan REST API langsung
@@ -114,21 +109,16 @@ def analyze_nft():
             }
             
             response = requests.get(url, headers=headers, params=params)
-            app.logger.info(f"NFT metadata API call: {url}")
-            app.logger.info(f"Response status: {response.status_code}")
             
             if response.status_code == 200:
                 nft_metadata_data = response.json()
-                app.logger.info(f"NFT metadata successful for {contract_address}")
             else:
                 nft_metadata_data = {
                     "error": f"API Error: {response.status_code} - {response.text}",
                     "data": None
                 }
-                app.logger.error(f"NFT metadata API failed: {response.status_code} - {response.text}")
                 
         except Exception as metadata_error:
-            app.logger.error(f"NFT metadata failed: {metadata_error}")
             nft_metadata_data = {
                 "error": str(metadata_error),
                 "data": None
@@ -145,21 +135,16 @@ def analyze_nft():
             }
             
             metrics_response = requests.get(metrics_url, headers=headers, params=metrics_params)
-            app.logger.info(f"NFT metrics API call: {metrics_url}")
-            app.logger.info(f"Metrics response status: {metrics_response.status_code}")
             
             if metrics_response.status_code == 200:
                 nft_metrics_data = metrics_response.json()
-                app.logger.info(f"NFT metrics successful for {contract_address}")
             else:
                 nft_metrics_data = {
                     "error": f"API Error: {metrics_response.status_code} - {metrics_response.text}",
                     "data": None
                 }
-                app.logger.error(f"NFT metrics API failed: {metrics_response.status_code} - {metrics_response.text}")
                 
         except Exception as metrics_error:
-            app.logger.error(f"NFT metrics failed: {metrics_error}")
             nft_metrics_data = {
                 "error": str(metrics_error),
                 "data": None
@@ -171,21 +156,16 @@ def analyze_nft():
             valuation_params = {}  # Tidak ada query parameters untuk endpoint ini
             
             valuation_response = requests.get(valuation_url, headers=headers, params=valuation_params)
-            app.logger.info(f"NFT valuation API call: {valuation_url}")
-            app.logger.info(f"Valuation response status: {valuation_response.status_code}")
             
             if valuation_response.status_code == 200:
                 nft_valuation_data = valuation_response.json()
-                app.logger.info(f"NFT valuation successful for {contract_address}")
             else:
                 nft_valuation_data = {
                     "error": f"API Error: {valuation_response.status_code} - {valuation_response.text}",
                     "data": None
                 }
-                app.logger.error(f"NFT valuation API failed: {valuation_response.status_code} - {valuation_response.text}")
                 
         except Exception as valuation_error:
-            app.logger.error(f"NFT valuation failed: {valuation_error}")
             nft_valuation_data = {
                 "error": str(valuation_error),
                 "data": None
@@ -200,12 +180,9 @@ def analyze_nft():
             }
             
             price_history_response = requests.get(price_history_url, headers=headers, params=price_history_params)
-            app.logger.info(f"NFT price history API call: {price_history_url}")
-            app.logger.info(f"Price history response status: {price_history_response.status_code}")
             
             if price_history_response.status_code == 200:
                 nft_price_history_data = price_history_response.json()
-                app.logger.info(f"NFT price history successful for {contract_address}")
             else:
                 nft_price_history_data = {
                     "error": f"API Error: {price_history_response.status_code} - {price_history_response.text}",
@@ -228,12 +205,9 @@ def analyze_nft():
             }
             
             traits_response = requests.get(traits_url, headers=headers, params=traits_params)
-            app.logger.info(f"NFT traits API call: {traits_url}")
-            app.logger.info(f"Traits response status: {traits_response.status_code}")
             
             if traits_response.status_code == 200:
                 nft_traits_data = traits_response.json()
-                app.logger.info(f"NFT traits successful for {contract_address}")
             else:
                 nft_traits_data = {
                     "error": f"API Error: {traits_response.status_code} - {traits_response.text}",
@@ -259,12 +233,9 @@ def analyze_nft():
             }
             
             transactions_response = requests.get(transactions_url, headers=headers, params=transactions_params)
-            app.logger.info(f"NFT transactions API call: {transactions_url}")
-            app.logger.info(f"Transactions response status: {transactions_response.status_code}")
             
             if transactions_response.status_code == 200:
                 nft_transactions_data = transactions_response.json()
-                app.logger.info(f"NFT transactions successful for {contract_address}")
             else:
                 nft_transactions_data = {
                     "error": f"API Error: {transactions_response.status_code} - {transactions_response.text}",
@@ -281,13 +252,7 @@ def analyze_nft():
 
 
 
-        # Log data yang diterima dari BitsCrunch API
-        app.logger.info(f"NFT metadata data from BitsCrunch: {nft_metadata_data}")
-        app.logger.info(f"NFT metrics data from BitsCrunch: {nft_metrics_data}")
-        app.logger.info(f"NFT valuation data from BitsCrunch: {nft_valuation_data}")
-        app.logger.info(f"NFT price history data from BitsCrunch: {nft_price_history_data}")
-        app.logger.info(f"NFT traits data from BitsCrunch: {nft_traits_data}")
-        app.logger.info(f"NFT transactions data from BitsCrunch: {nft_transactions_data}")
+        # Data dari BitsCrunch API siap untuk analisis
 
         # 7. Analisis AI menggunakan Gemini REST API
         try:
@@ -398,16 +363,12 @@ Use professional language, definitive statements, and concrete recommendations. 
                 if response.status_code == 200:
                     result = response.json()
                     ai_analysis = result['candidates'][0]['content']['parts'][0]['text']
-                    app.logger.info("AI analysis successful")
                 else:
-                    app.logger.error(f"Gemini API error: {response.status_code} - {response.text}")
                     ai_analysis = "AI analysis temporarily unavailable. Please check the raw data below."
             else:
                 ai_analysis = "AI analysis temporarily unavailable. Please check the raw data below."
-                app.logger.warning("Gemini API key not set")
             
         except Exception as ai_error:
-            app.logger.error(f"AI analysis failed: {ai_error}")
             ai_analysis = "AI analysis temporarily unavailable. Please check the raw data below."
 
         # Return data komprehensif dari semua endpoint BitsCrunch API + AI analysis
@@ -429,7 +390,6 @@ Use professional language, definitive statements, and concrete recommendations. 
         }), 200
 
     except Exception as e:
-        app.logger.error(f"Error during NFT analysis: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == "__main__":

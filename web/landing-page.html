@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra AI - Intelligent NFT Analysis Extension</title>
+    <link rel="icon" type="image/png" href="picture/128.png">
+    <link rel="apple-touch-icon" href="picture/128.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'web3-dark': '#0a0a0f',
+                        'web3-darker': '#1a1a2e',
+                        'web3-accent': '#16213e',
+                        'web3-blue': '#627eff',
+                        'web3-cyan': '#4dabf7',
+                        'web3-green': '#69db7c',
+                        'web3-card': 'rgba(20, 20, 30, 0.95)',
+                        'web3-border': 'rgba(64, 64, 128, 0.3)',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'light-run-vertical': 'lightRunVertical 3s linear infinite',
+                        'light-run-horizontal': 'lightRunHorizontal 4s linear infinite',
+                        'light-run-horizontal-reverse': 'lightRunHorizontalReverse 5s linear infinite',
+                        'light-run-vertical-reverse': 'lightRunVerticalReverse 3.5s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(98, 126, 255, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(98, 126, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        lightRunVertical: {
+                            '0%': { transform: 'translateY(-100%)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateY(100vh)', opacity: '0' },
+                        },
+                        lightRunHorizontal: {
+                            '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateX(100vw)', opacity: '0' },
+                        },
+                        lightRunHorizontalReverse: {
+                            '0%': { transform: 'translateX(100vw)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateX(-100%)', opacity: '0' },
+                        },
+                        lightRunVerticalReverse: {
+                            '0%': { transform: 'translateY(100vh)', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { transform: 'translateY(-100%)', opacity: '0' },
+                        },
+                    },
+                    backgroundImage: {
+                        'web3-gradient': 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
+                        'card-gradient': 'linear-gradient(135deg, rgba(98, 126, 255, 0.1) 0%, rgba(77, 171, 247, 0.1) 100%)',
+                        'button-gradient': 'linear-gradient(135deg, #627eff 0%, #4dabf7 100%)',
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-web3-gradient min-h-screen text-white font-inter overflow-x-hidden relative">
+    <!-- Animated Light Lines -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Vertical Lines -->
+        <div class="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-20">
+            <div class="w-6 h-20 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical"></div>
+        </div>
+        <div class="absolute right-1/3 top-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-15">
+            <div class="w-6 h-16 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical-reverse"></div>
+        </div>
+        <div class="absolute left-2/3 top-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-25">
+            <div class="w-6 h-24 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <!-- Horizontal Lines -->
+        <div class="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-20">
+            <div class="w-20 h-6 bg-gradient-to-r from-transparent via-white to-transparent animate-light-run-horizontal"></div>
+        </div>
+        <div class="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-15">
+            <div class="w-24 h-6 bg-gradient-to-r from-transparent via-white to-transparent animate-light-run-horizontal-reverse"></div>
+        </div>
+        <div class="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-25">
+            <div class="w-16 h-6 bg-gradient-to-r from-transparent via-white to-transparent animate-light-run-horizontal" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <!-- Diagonal Lines for extra futuristic feel -->
+        <div class="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-10 transform rotate-12 origin-top-left">
+            <div class="w-6 h-20 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical" style="animation-delay: 0.5s;"></div>
+        </div>
+        <div class="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-10 transform -rotate-12 origin-top-right">
+            <div class="w-6 h-20 bg-gradient-to-b from-transparent via-white to-transparent animate-light-run-vertical-reverse" style="animation-delay: 1.5s;"></div>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-web3-card/80 border-b border-web3-border relative">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="picture/icon128.png" alt="Myntra AI Logo" class="w-10 h-10 rounded-xl">
+                    <span class="text-xl font-bold bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        Myntra AI
+                    </span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-300 hover:text-web3-cyan transition-colors duration-300">Features</a>
+                    <a href="#how-it-works" class="text-gray-300 hover:text-web3-cyan transition-colors duration-300">How It Works</a>
+                    <a href="#marketplaces" class="text-gray-300 hover:text-web3-cyan transition-colors duration-300">Marketplaces</a>
+                    <a href="https://github.com/envexx/myntra-ai-nft-extension.git" target="_blank" class="bg-button-gradient px-6 py-2 rounded-xl font-semibold hover:shadow-lg hover:shadow-web3-blue/30 transition-all duration-300 transform hover:scale-105 inline-block">
+                        Install Extension
+                    </a>
+                </div>
+                <button class="md:hidden text-2xl">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 relative z-10">
+        <div class="container mx-auto text-center">
+            <div class="animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                    <span class="bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        Intelligent NFT
+                    </span>
+                    <br>
+                    <span class="text-gray-100">Analysis Extension</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+                    Harness the power of AI and real-time blockchain data to make informed NFT investment decisions. 
+                    Get professional insights, risk assessments, and actionable recommendations directly in your browser.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a href="https://github.com/envexx/myntra-ai-nft-extension.git" target="_blank" class="bg-button-gradient px-10 py-4 rounded-2xl font-semibold text-lg hover:shadow-xl hover:shadow-web3-blue/40 transition-all duration-300 transform hover:scale-105 animate-glow inline-block">
+                        🚀 Install Extension
+                    </a>
+                    <button class="border-2 border-web3-border bg-web3-card/50 backdrop-blur-sm px-10 py-4 rounded-2xl font-semibold text-lg hover:border-web3-cyan transition-all duration-300">
+                        📺 Watch Demo
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Preview Image -->
+            <div class="mt-20 relative">
+                <div class="animate-float">
+                    <div class="max-w-4xl mx-auto">
+                        <img src="picture/preview.png" alt="Myntra AI Extension Preview" class="w-full h-auto max-h-[28rem] object-contain rounded-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6 relative z-10">
+        <div class="container mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-web3-blue to-web3-cyan bg-clip-text text-transparent">
+                        Powerful Features
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Everything you need to make informed NFT investment decisions, powered by cutting-edge AI and real-time blockchain analytics.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🔍
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Real-time NFT Analysis</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Get instant comprehensive analysis using BitsCrunch APIs with historical data, market trends, and valuation insights.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🤖
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">AI-Powered Insights</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Leverage Gemini AI's advanced analysis capabilities to get professional insights and actionable recommendations.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🛡️
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Risk Assessment</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Advanced risk analysis with predictive models to help you avoid potential losses and identify opportunities.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        🚀
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Multi-Marketplace Support</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Works seamlessly across OpenSea, Rarible, Blur, LooksRare, and X2Y2 - analyze NFTs wherever you browse.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        📊
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Professional Reports</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Receive detailed analysis reports with charts, metrics, and professional recommendations for every NFT.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-web3-card/80 backdrop-blur-lg border border-web3-border rounded-2xl p-8 hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-card-gradient rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        ⚡
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Lightning Fast</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Intelligent caching system ensures fast repeated analysis and minimal loading times for better user experience.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 px-6 bg-black/20 relative z-10">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        How It Works
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Simple, powerful, and intelligent. Get professional NFT analysis in just a few clicks.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-button-gradient rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        1
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Browse NFT</h3>
+                    <p class="text-gray-300">Navigate to any NFT on supported marketplaces</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-button-gradient rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        2
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Click Extension</h3>
+                    <p class="text-gray-300">Click the Myntra AI extension icon in your browser</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-button-gradient rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        3
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Get Analysis</h3>
+                    <p class="text-gray-300">AI analyzes the NFT using real-time blockchain data</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-button-gradient rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        4
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Make Decision</h3>
+                    <p class="text-gray-300">Receive insights and recommendations to guide your investment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Marketplaces -->
+    <section id="marketplaces" class="py-20 px-6 relative z-10">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-web3-green to-web3-blue bg-clip-text text-transparent">
+                        Supported Marketplaces
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Myntra AI works seamlessly across all major NFT marketplaces, providing consistent analysis wherever you browse.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="bg-web3-card/60 backdrop-blur-lg border border-web3-border rounded-2xl p-6 text-center hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🌊</div>
+                    <h3 class="font-semibold text-white">OpenSea</h3>
+                </div>
+                <div class="bg-web3-card/60 backdrop-blur-lg border border-web3-border rounded-2xl p-6 text-center hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">🎨</div>
+                    <h3 class="font-semibold text-white">Rarible</h3>
+                </div>
+                <div class="bg-web3-card/60 backdrop-blur-lg border border-web3-border rounded-2xl p-6 text-center hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">⚡</div>
+                    <h3 class="font-semibold text-white">Blur</h3>
+                </div>
+                <div class="bg-web3-card/60 backdrop-blur-lg border border-web3-border rounded-2xl p-6 text-center hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">👁️</div>
+                    <h3 class="font-semibold text-white">LooksRare</h3>
+                </div>
+                <div class="bg-web3-card/60 backdrop-blur-lg border border-web3-border rounded-2xl p-6 text-center hover:border-web3-cyan transition-all duration-300 group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">💎</div>
+                    <h3 class="font-semibold text-white">X2Y2</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-6 bg-black/30 relative z-10">
+        <div class="container mx-auto text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-bold mb-8">
+                    <span class="bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        Ready to Make Smarter
+                    </span>
+                    <br>
+                    <span class="text-white">NFT Investments?</span>
+                </h2>
+                <p class="text-xl text-gray-300 mb-12 leading-relaxed">
+                    Join thousands of NFT traders who trust Myntra AI for professional analysis and insights. 
+                    Install the extension today and start making data-driven investment decisions.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="https://github.com/envexx/myntra-ai-nft-extension.git" target="_blank" class="bg-button-gradient px-12 py-5 rounded-2xl font-semibold text-xl hover:shadow-2xl hover:shadow-web3-blue/50 transition-all duration-300 transform hover:scale-105 inline-block">
+                        🚀 Install Extension Now
+                    </a>
+                    <a href="dokumentasi.html" class="border-2 border-web3-border bg-web3-card/50 backdrop-blur-sm px-12 py-5 rounded-2xl font-semibold text-xl hover:border-web3-cyan transition-all duration-300 inline-block">
+                        📖 Read Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-web3-border relative z-10">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img src="picture/icon128.png" alt="Myntra AI Logo" class="w-10 h-10 rounded-xl">
+                    <span class="text-xl font-bold bg-gradient-to-r from-web3-blue via-web3-cyan to-web3-green bg-clip-text text-transparent">
+                        Myntra AI
+                    </span>
+                </div>
+                <div class="flex space-x-8 text-gray-400">
+                    <a href="#" class="hover:text-web3-cyan transition-colors duration-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-web3-cyan transition-colors duration-300">Terms of Service</a>
+                    <a href="#" class="hover:text-web3-cyan transition-colors duration-300">Support</a>
+                </div>
+            </div>
+            <div class="text-center text-gray-400 mt-8 pt-8 border-t border-web3-border">
+                <p>&copy; 2025 Myntra AI. Powered by BitsCrunch APIs and Gemini AI. NFT insights for the modern trader.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                navbar.classList.add('backdrop-blur-xl', 'bg-web3-card');
+            } else {
+                navbar.classList.remove('backdrop-blur-xl', 'bg-web3-card');
+            }
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and sections
+        document.querySelectorAll('.grid > div, section').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

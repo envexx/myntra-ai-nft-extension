@@ -1,7 +1,7 @@
 // Background Service Worker for Myntra AI
 
 // Constants
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'http://fscgswgcw8g4wooogwo0okk4.31.97.67.141.sslip.io';
 
 // Storage for analysis results
 let analysisCache = new Map();
