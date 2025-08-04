@@ -24,6 +24,7 @@ Myntra AI is an AI-powered Chrome extension that provides real-time NFT analysis
 ## 🚀 Quick Access
 
 - **🌐 Live Demo**: [myntraai.vercel.app](https://myntraai.vercel.app)
+- **📺 Demo Video**: [Watch on YouTube](https://youtu.be/H6XESX2TmxM)
 - **📦 Extension**: [Download from GitHub](https://github.com/envexx/myntra-ai-nft-extension)
 - **📚 Documentation**: [Interactive Guide](https://myntraai.vercel.app/dokumentasi.html)
 
